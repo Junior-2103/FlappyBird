@@ -1,36 +1,49 @@
-[gd_scene load_steps=3 format=3 uid="uid://cksh1tt14it1t"]
+[gd_scene load_steps=6 format=3 uid="uid://cksh1tt14it1t"]
 
+[ext_resource type="Texture2D" uid="uid://lv2j71h3x3j4" path="res://Assets/flappy-bird-assets/sprites/base.png" id="2_5a7ea"]
 [ext_resource type="Texture2D" uid="uid://bdkv0fnhgdssc" path="res://Assets/flappy-bird-assets/sprites/background-day.png" id="2_go701"]
+[ext_resource type="PackedScene" uid="uid://btxswelfhuqed" path="res://Scenes/bird.tscn" id="3_5a7ea"]
 
 [sub_resource type="CSharpScript" id="CSharpScript_a02cp"]
 script/source = "using Godot;
 using System;
-using System.Collections.Generic;
 
-public partial class World : Node2D
-{
-	public override void _Ready()
-	{
-		List<short> lista = new List<short>(5);
-		lista.Add(1);
-		lista.Add(1);
-		lista.Add(2);
-		lista.Add(\"ol´\");
+public partial class World : Node2D{
+	
+	[Export] public float GameSpeed { get; set; } = -1f;
+	//[Export] public float Gravity { get; set; } = -1f;
+	
+	public override void _Ready(){
 		
-		
-		GD.Print(string.Join(\", \", lista)); // Mostra: 1, 1, 2
 	}
 
-	public override void _Process(double delta)
-	{
+	public override void _Process(double delta){
+		
 	}
 }
 "
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8j60k"]
+size = Vector2(368, 120)
 
 [node name="World" type="Node2D"]
 script = SubResource("CSharpScript_a02cp")
 
 [node name="BackgroundDay" type="Sprite2D" parent="."]
-position = Vector2(182.90623, 324.50006)
-scale = Vector2(1.2597657, 1.2597657)
+position = Vector2(182.25, 324.00003)
+scale = Vector2(1.265625, 1.265625)
 texture = ExtResource("2_go701")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(184, 592)
+
+[node name="Base" type="Sprite2D" parent="Area2D"]
+scale = Vector2(1.0952381, 1.0952381)
+texture = ExtResource("2_5a7ea")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_8j60k")
+
+[node name="player" parent="." instance=ExtResource("3_5a7ea")]
+position = Vector2(40, 296)
